@@ -113,7 +113,7 @@ namespace KUSYSProjectApp.Controllers
             _context.Add(course);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(CreateCourse));
+            return RedirectToAction(nameof(CreateCourse));      
         }
 
 
@@ -133,7 +133,7 @@ namespace KUSYSProjectApp.Controllers
         }
 
 
-        public async Task<IActionResult> DeleteCourse(int Id)
+        public async Task<IActionResult> DeleteCourse(string Id)
         {
             var deleteCourse = await _context.Courses.FindAsync(Id);
 
@@ -147,7 +147,7 @@ namespace KUSYSProjectApp.Controllers
 
             public JsonResult GetStudentDetails(int id)
         {
-            var student = _context.Students.Include(x => x.Course).FirstOrDefault(student => student.StudentId == id);
+            var student = _context.Students.FirstOrDefault(student => student.StudentId == id);
 
             return Json(student);
         }
