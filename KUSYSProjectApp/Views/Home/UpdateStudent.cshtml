@@ -1,0 +1,44 @@
+﻿@model KUSYSProjectApp.Models.Student 
+
+<h2>Edit Student</h2>
+
+<div class="container" style="max-width: 600px;">
+    <form asp-controller="Home" asp-action="UpdateStudent" method="post">
+        <input type="hidden" asp-for="StudentId" />
+        <div class="form-group">
+            <label for="FirstName">First Name</label>
+            <input asp-for="FirstName" class="form-control" required />
+            <span asp-validation-for="FirstName" class="text-danger" ></span>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="LastName">Last Name</label>
+            <input asp-for="LastName" class="form-control" required />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="BirthDate">Birth Date</label>
+            <input asp-for="BirthDate" class="form-control" required />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="courseSelect">Course</label>
+            <select asp-for="CourseId" class="form-control selectpicker" data-live-search="true" id="courseSelect" required>
+                <option value="">Select Course</option>
+                @foreach (var course in ViewBag.Courses)
+                {
+                    <option value="@course.CourseId">@course.CourseName</option>
+                }
+            </select>
+        </div>
+        <br />
+        <br />
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>

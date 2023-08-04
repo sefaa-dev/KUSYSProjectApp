@@ -1,0 +1,89 @@
+﻿@model List<StudentViewModel>
+
+
+<h4>List all Student & Course matchings </h4>
+
+<div class="container" style="max-width:850px;">
+
+    <div style="display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary" asp-action="CreateStudent">Add Student</a>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Course Id</th>
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.CourseId</td>
+                    <td style="width:100px;">
+                        <button onclick="getStudentDetails(@student.StudentId)" type="button" class="btn btn-secondary">
+                            Detail
+                        </button>
+                    </td>
+                    <td style="width:100px;"><a class="btn btn-warning" asp-action="UpdateStudent" asp-route-id="@student.StudentId">Update</a></td>
+                    <td style="width:100px;"><a class="btn btn-danger" asp-action="DeleteStudent" asp-route-id="@student.StudentId">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Student Detail Popup </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function getStudentDetails(id) {
+        // AJAX isteği yapma
+        $.ajax({
+            url: '/home/getStudentDetails', 
+            method: 'GET',
+            data: { id:id },          
+            success: function (data) {          
+                // AJAX isteği başarılı oldu, modal içine verileri ekleyin
+                var modalBody = document.getElementById('modalBody');
+                modalBody.innerHTML = `<p>Student Id: ${data.studentId}</p><p>Firs Name: ${data.firstName}</p><p>Last Name: ${data.lastName}</p><p>Birth Date: ${data.birthDate}</p><p>Course Id: ${data.courseId}</p>`;
+
+                // Modalı açma
+                $('#detailModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                // Hata durumunda işlem yapabilirsiniz
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+
+
+
